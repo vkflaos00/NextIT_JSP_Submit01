@@ -1,0 +1,156 @@
+
+.intro_text{
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 300px;
+}
+h2 {
+	margin-top : 50px;
+	color: #000;
+
+}
+
+.header {
+	width: 100% !important;
+	height: 200px;
+	display: flex;
+}
+
+.top_nav {
+	width: 100% !important;
+	height: 200px;
+	display: flex;
+}
+
+.contents{
+    width: 100%;
+    background-color: lightslategrey;
+}
+
+.content01{
+    width: 1280px;
+    height: 100%;
+    background-color: lightgreen;
+}
+.content01_h1{
+    width: 100%;
+    height: 100px;
+    background-color: lightpink;
+    text-align: center;
+}
+.content01_h1 > h1{
+    padding-top: 30px;
+}
+
+#div_table{
+    width: 1280px;
+    height: 100%;
+    background-color: lightsalmon;
+}
+ 
+
+#div_table > table{
+    width: 80%;
+    height: 500px;
+    background-color: lightskyblue;
+}
+ 
+th, td {
+    text-align: center;
+    border-bottom: 2px solid lightslategrey;
+}
+.div_paging{
+    width: 100%;
+    /* height: 100px; */
+    height: 100%;
+    background-color: lightcyan;
+}
+.pagination{
+    width: 300px;
+    /* height: 30px; */
+    height: 100%;
+    background-color: lightpink;
+    text-align: center;
+    padding-top: 20px;
+    display: flex;
+}
+.pagination > li{
+	width: 20px;
+}
+.div_board_write{
+    width: 100px;
+    height: 50px;
+    background-color: limegreen;
+    position: relative;
+    left: 510px;
+    top: -30px;
+} 
+
+.div_board_write > input{
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.contents, .content01, .content01_h1, #div_table, #div_table > table,
+     .div_paging, .pagination, .div_board_write{
+    background-color: #999999;
+}
+
+
+
+.div_board_write > input:active{
+    transform:translate(2px,2px);
+}
+
+/
+.pagination a{
+   padding-left:7px
+}
+.pagination a:hover {
+   color: lightskyblue;
+   font-weight:bold;
+}
+
+
+.curPage_a{
+	color: red;
+   	font-weight:bold;
+}
+
+
+.rowSizePerPage{
+    text-align: right;
+    margin-right: 150px;
+    margin-bottom: 20px;
+}
+
+
+.div_search{
+	width: 1280px;
+	height: 50px;
+	/* background-color: lightBlue; */
+
+}
+
+.div_search form{
+	width: 1024px;
+	height: 100%;
+	background-color: lightgray;
+}
+
+.div_search div{
+	text-align: center;
+	padding-top: 15px;
+}
+
+.div_search input{
+	outline: none;
+}
+
+h1 {
+	margin-left : 30%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	color: #900000;
+}

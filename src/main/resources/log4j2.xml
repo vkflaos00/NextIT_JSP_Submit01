@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{yyyy-MM-dd hh:mm:ss} [ %C , line : %L , Method : %M ] : %m%n"/>
+    </Console>    
+  </Appenders>
+  
+  <Loggers>
+  
+    <Logger name="kr.or.nextit.code" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+
+<!--  kr.or.nextit 하위는 info레벨로 로그 출력하기   -->
+	<Logger name="kr.or.nextit" level="info" additivity="false">
+		<AppenderRef ref="Console"/>	
+	</Logger>
+
+	<logger name="org.springframework.core" level="info">
+		<AppenderRef ref="Console"/>
+	</logger>
+	
+	<logger name="org.springframework.beans" level="info">
+		<AppenderRef ref="Console"/>
+	</logger>
+	<logger name="org.springframework.context" level="info">
+		<AppenderRef ref="Console"/>
+	</logger>
+	<logger name="org.springframework.web" level="info">
+		<AppenderRef ref="Console"/>
+	</logger>
+
+    <Root level="error">
+      <AppenderRef ref="Console"/>
+    </Root>
+
+  </Loggers>
+</Configuration>

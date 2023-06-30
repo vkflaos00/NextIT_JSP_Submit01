@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<annotation-driven />
+
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/images/**" location="/images/" />
+	<resources mapping="/css/**" location="/css/" />
+	<resources mapping="/js/**" location="/js/" />
+	<resources mapping="/realgrid/**" location="/realgrid/" />
+	<resources mapping="/smarteditor2-2.8.2.3/**" location="/smarteditor2-2.8.2.3/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2"/>
+	</beans:bean>
+	
+	<context:component-scan base-package="kr.or.nextit"  
+	use-default-filters="false">
+		<context:include-filter type="annotation" 
+			expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+
+	<aop:aspectj-autoproxy/>
+	
+	
+<interceptors>
+
+		<interceptor>
+			<mapping path="/free/freeHide"/>
+			<beans:bean class="kr.or.nextit.common.util.NextITRoleCheckIntercepter"></beans:bean>
+		</interceptor>
+</interceptors>	
+	
+	<!--스프링 컨트롤러가 파일을 받을수 있도록 StandardServletMultipartResolver 등록하기
+	 	(StandardServletMultipartResolver은 서블릿 3.0이상에서 동작함)-->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
+	
+	
+	<!--Tiles를 사용하기 위한 UrlBasedViewResolver 
+	뷰리저설정(spring-webmvc-XXX.jar에 속함)  -->	
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+		<!-- 찾는 순위가 1순위 -->
+		<beans:property name="order" value="1"/>
+	</beans:bean>
+	
+	<!--Tiles를 사용하기 위한 지시서 정보 맵핑-->	
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions" value="/WEB-INF/spring/tiles/tiles.xml"/>
+	</beans:bean>
+	
+	
+</beans:beans>

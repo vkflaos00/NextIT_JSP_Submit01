@@ -1,0 +1,197 @@
+
+#content-container {
+  display: flex;
+  align-items: center;
+}
+
+
+h1 {
+	margin-left : 30%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	color: #900000;
+}
+
+.lung img{
+	   width :580px; 
+	   height :580px; 
+}
+
+
+#hitButton, #resetButton {
+  width: 100%;
+  height: 50px;
+  margin-top: 50px;
+  color: #fff;
+  background: #800000;
+  border: none;
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#resetButton {
+  margin-top: 300px;
+  margin-left: 200px;
+  width: 50%; 
+  font-size: 10px; 
+  background: #809999;
+}
+
+
+.text-center {
+   text-align: left;
+  font-size: 25px;
+}
+
+.text-center2{
+   text-align: center;
+  font-size: 40px;
+}
+
+.text-center3{
+		margin-top: 100px;
+
+   text-align: center;
+  font-size: 25px;
+}
+
+#barchart_values {
+		margin-top: 30px;
+  width: 1000px !important;
+  height: 400px !important;
+}
+
+
+.intro_text{
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 300px;
+}
+.intro_text > h1, .intro_text > h4 {
+    color: #fff;
+}
+
+/* =========================2�� intro_bg e */
+/* ��ü������� */
+.contents{
+    width: 100%;
+    background-color: lightslategrey;
+}
+/* ����� ������� */
+.content01{
+	
+    width: 1280px;
+    height: 100%;
+    background-color: lightgreen;
+}
+.content01_h1{
+    width: 100%;
+    height: 100px;
+    background-color: lightpink;
+    text-align: center;
+}
+.content01_h1 > h1{
+    padding-top: 30px;
+}
+/* ���̺� ������� */
+#div_table{
+	
+    width: 1280px;
+    height: 100%;
+    background-color: lightsalmon;
+}
+ 
+/* list */
+th, td {
+	
+    text-align: center;
+    border-bottom: 2px solid lightslategrey;
+}
+.div_paging{
+    width: 100%;
+    /* height: 100px; */
+    height: 100%;
+    background-color: lightcyan;
+}
+.pagination{
+    width: 300px;
+    /* height: 30px; */
+    height: 100%;
+    background-color: lightpink;
+    text-align: center;
+    padding-top: 20px;
+    display: flex;
+}
+.pagination > li{
+	width: 20px;
+}
+.div_board_write{
+    width: 100px;
+    height: 50px;
+    background-color: limegreen;
+    position: relative;
+    left: 510px;
+    top: -30px;
+} 
+
+.div_board_write > input{
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+.contents, .content01, .content01_h1, #div_table, #div_table > table,
+     .div_paging, .pagination, .div_board_write{
+    background-color: #fff;
+}
+
+
+
+.div_board_write > input:active{
+    transform:translate(2px,2px);
+}
+
+
+.pagination a{
+   padding-left:7px
+}
+.pagination a:hover {
+   color: lightskyblue;
+   font-weight:bold;
+}
+
+.curPage_a{
+	color: red;
+   	font-weight:bold;
+}
+
+.rowSizePerPage{
+    text-align: right;
+    margin-right: 150px;
+    margin-bottom: 20px;
+}
+
+.div_search{
+	width: 1280px;
+	height: 50px;
+	/* background-color: lightBlue; */
+	margin-bottom: 10px;
+}
+.div_search form{
+	width: 1024px;
+	height: 100%;
+	background-color: lightgray;
+}
+.div_search div{
+	text-align: center;
+	padding-top: 15px;
+}
+.div_search input{
+	outline: none;
+}
+
+#table-container {
+	font-size: 20px;
+	boader-line : 2px;
+}
