@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/freeBoardList.css">
 <script>
@@ -69,146 +71,150 @@
 
 	}
 </script>
-			<div class="contents">
-				<div class="content01">
-					<div class="content01_h1">
-                <h2>자유게시판</h2>
+<div class="contents">
+	<div class="content01">
+		<div class="content01_h1">
+			<h2>자유게시판</h2>
+		</div>
+
+		<c:if test="${bne ne null or de ne null}">
+			<div class="alert alert-warning">로딩실패</div>
+			<div class="div_button">
+				<input type="button" onclick="history.back();" value="뒤로가기">
+			</div>
+		</c:if>
+
+		<c:if test="${bnf eq null and de eq null}">
+			<div class="div_search">
+				<form name="search"
+					action="${pageContext.request.contextPath }/free/freeList"
+					method="post">
+					<input type="hidden" name="curPage" value="${searchVO.curPage}">
+					<input type="hidden" name="rowSizePerPage"
+						value="${searchVO.rowSizePerPage}">
+
+					<div>
+						<label for="id_searchType">검색</label> &nbsp;&nbsp; <select
+							id="id_searchType" name="searchType">
+							<option value="T"
+								${searchVO.searchType eq "T" ? "selected='selected'" : ""}>제목</option>
+							<option value="W"
+								${searchVO.searchType eq "W" ? "selected='selected'" : ""}>작성자</option>
+							<option value="C"
+								${searchVO.searchType eq "C" ? "selected='selected'" : ""}>내용</option>
+						</select> <input type="text" name="searchWord"
+							value="${searchVO.searchWord }" placeholder="검색어">
+						&nbsp;&nbsp;&nbsp;&nbsp; <label for="id_searchCategory">분류</label>
+						&nbsp;&nbsp; <select id="id_searchCategory" name="searchCategory">
+							<option value="">-- 전체 --</option>
+							<c:forEach items="${categoryList}" var="categoryCode">
+								<option value="${categoryCode.commCd}"
+									${searchVO.searchCategory eq categoryCode.commCd ? "selected='selected'" : "" }>${categoryCode.commNm}</option>
+							</c:forEach>
+						</select> &nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="submit">검 색</button>
+						<button type="button" id="id_btn_reset">초기화</button>
 					</div>
-
-					<c:if test="${bne ne null or de ne null}">
-						<div class="alert alert-warning">로딩실패</div>
-						<div class="div_button">
-							<input type="button" onclick="history.back();" value="뒤로가기">
-						</div>
-					</c:if>
-
-					<c:if test="${bnf eq null and de eq null}">
-						<div class="div_search">
-							<form name="search"
-								action="${pageContext.request.contextPath }/free/freeList"
-								method="post">
-								<input type="hidden" name="curPage" value="${searchVO.curPage}">
-								<input type="hidden" name="rowSizePerPage"
-									value="${searchVO.rowSizePerPage}">
-
-								<div>
-									<label for="id_searchType">검색</label> &nbsp;&nbsp; <select
-										id="id_searchType" name="searchType">
-										<option value="T"
-											${searchVO.searchType eq "T" ? "selected='selected'" : ""}>제목</option>
-										<option value="W"
-											${searchVO.searchType eq "W" ? "selected='selected'" : ""}>작성자</option>
-										<option value="C"
-											${searchVO.searchType eq "C" ? "selected='selected'" : ""}>내용</option>
-									</select> <input type="text" name="searchWord"
-										value="${searchVO.searchWord }" placeholder="검색어">
-									&nbsp;&nbsp;&nbsp;&nbsp; <label for="id_searchCategory">분류</label>
-									&nbsp;&nbsp; <select id="id_searchCategory"
-										name="searchCategory">
-										<option value="">-- 전체 --</option>
-										<c:forEach items="${categoryList}" var="categoryCode">
-											<option value="${categoryCode.commCd}"
-												${searchVO.searchCategory eq categoryCode.commCd ? "selected='selected'" : "" }>${categoryCode.commNm}</option>
-										</c:forEach>
-									</select> &nbsp;&nbsp;&nbsp;&nbsp;
-									<button type="submit">검 색</button>
-									<button type="button" id="id_btn_reset">초기화</button>
-								</div>
-							</form>
-						</div>
+				</form>
+			</div>
 
 
-						<div class="rowSizePerPage">
-							<div>
-								전체 ${searchVO.totalRowCount } 건 조회 <select
-									id="id_rowSizePerPage" name="rowSizePerPage">
-									<c:forEach begin="10" end="50" step="10" var="i">
-										<option value="${i }"
-											${searchVO.rowSizePerPage eq i ? "selected='selected'" : "" }>${i }</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-
-						<!-- 리스트 -->
-						<div id="div_table">
-							<table>
-								<colgroup>
-									<col width="100">
-									<col width="150">
-									<col>
-									<col width="150">
-									<col width="150">
-									<col width="100">
-								</colgroup>
-								<thead>
-									<tr>
-										<th>글번호</th>
-										<th>분류</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>등록일</th>
-										<th>조회수</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									<c:forEach items="${freeBoardList }" var="freeBoard">
-										<tr>
-											<td>${freeBoard.rnum }</td>
-											<td>${freeBoard.boCategoryNm }</td>
-											<td><a href="#"
-												onclick="fn_boardViewBoNo('${freeBoard.boNo }')">
-													${freeBoard.boTitle } </a></td>
-											<td>${freeBoard.boWriter }</td>
-											<td>${freeBoard.boRegDate }</td>
-											<td>${freeBoard.boHit }</td>
-										</tr>
-									</c:forEach>
-
-								</tbody>
-							</table>
-						</div>
-
-						<!-- paging -->
-						<div class="div_paging">
-							<ul class="pagination">
-								<c:if test="${searchVO.firstPage gt 10 }">
-									<li><a href="#" data-curPage=${searchVO.firstPage-1 }
-										data-rowSizePerPage=${searchVO.rowSizePerPage }>&laquo;</a></li>
-								</c:if>
-
-								<c:if test="${searchVO.curPage ne 1 }">
-									<li><a href="#" data-curPage=${searchVO.curPage-1 }
-										data-rowSizePerPage=${searchVO.rowSizePerPage }>&lt;</a></li>
-								</c:if>
-
-								<c:forEach begin="${searchVO.firstPage }"
-									end="${searchVO.lastPage }" step="1" var="i">
-									<c:if test="${searchVO.curPage ne i}">
-										<li><a href="#" data-curPage=${i }
-											data-rowSizePerPage=${searchVO.rowSizePerPage }>${i }</a></li>
-									</c:if>
-									<c:if test="${searchVO.curPage eq i }">
-										<li><a href="#" class="curPage_a">${i }</a></li>
-									</c:if>
-								</c:forEach>
-
-								<c:if test="${searchVO.lastPage ne searchVO.totalPageCount }">
-									<li><a href="#" data-curPage=${searchVO.curPage+1  }
-										data-rowSizePerPage=${searchVO.rowSizePerPage }>&gt;</a></li>
-									<li><a href="#" data-curPage=${searchVO.lastPage+1  }
-										data-rowSizePerPage=${searchVO.rowSizePerPage }>&raquo;</a></li>
-								</c:if>
-
-							</ul>
-
-							<div class="div_board_write">
-								<input type="button"
-									onclick="location.href='${pageContext.request.contextPath}/free/freeForm'"
-									value="글쓰기">
-							</div>
-						</div>
-					</c:if>
+			<div class="rowSizePerPage">
+				<div>
+					전체 ${searchVO.totalRowCount } 건 조회 <select id="id_rowSizePerPage"
+						name="rowSizePerPage">
+						<c:forEach begin="10" end="50" step="10" var="i">
+							<option value="${i }"
+								${searchVO.rowSizePerPage eq i ? "selected='selected'" : "" }>${i }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
+
+			<!-- 리스트 -->
+			<div id="div_table">
+				<table>
+					<colgroup>
+						<col width="100">
+						<col width="150">
+						<col>
+						<col width="150">
+						<col width="150">
+						<col width="100">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>글번호</th>
+							<th>분류</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>등록일</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<c:forEach items="${freeBoardList }" var="freeBoard">
+							<tr>
+								<td>${freeBoard.rnum }</td>
+								<td>${freeBoard.boCategoryNm }</td>
+								<td><a href="#"
+									onclick="fn_boardViewBoNo('${freeBoard.boNo }')">
+										${freeBoard.boTitle } </a></td>
+								<td>${freeBoard.boWriter }</td>
+								<td>${freeBoard.boRegDate }</td>
+								<td>${freeBoard.boHit }</td>
+							</tr>
+						</c:forEach>
+
+					</tbody>
+				</table>
+			</div>
+
+			<!-- paging -->
+			<div class="div_paging">
+				<ul class="pagination">
+					<c:if test="${searchVO.firstPage gt 10 }">
+						<li><a href="#" data-curPage=${searchVO.firstPage-1 }
+							data-rowSizePerPage=${searchVO.rowSizePerPage }>&laquo;</a></li>
+					</c:if>
+
+					<c:if test="${searchVO.curPage ne 1 }">
+						<li><a href="#" data-curPage=${searchVO.curPage-1 }
+							data-rowSizePerPage=${searchVO.rowSizePerPage }>&lt;</a></li>
+					</c:if>
+
+					<c:forEach begin="${searchVO.firstPage }"
+						end="${searchVO.lastPage }" step="1" var="i">
+						<c:if test="${searchVO.curPage ne i}">
+							<li><a href="#" data-curPage=${i }
+								data-rowSizePerPage=${searchVO.rowSizePerPage }>${i }</a></li>
+						</c:if>
+						<c:if test="${searchVO.curPage eq i }">
+							<li><a href="#" class="curPage_a">${i }</a></li>
+						</c:if>
+					</c:forEach>
+
+					<c:if test="${searchVO.lastPage ne searchVO.totalPageCount }">
+						<li><a href="#" data-curPage=${searchVO.curPage+1  }
+							data-rowSizePerPage=${searchVO.rowSizePerPage }>&gt;</a></li>
+						<li><a href="#" data-curPage=${searchVO.lastPage+1  }
+							data-rowSizePerPage=${searchVO.rowSizePerPage }>&raquo;</a></li>
+					</c:if>
+				</ul>
+				<div class="div_board_write">
+					<input type="button"
+						onclick="location.href='${pageContext.request.contextPath}/free/freeForm'"
+						value="글쓰기">
+					<security:authorize access="hasAuthority('ADMIN')">
+						<form action="${pageContext.request.contextPath}/free/freehide"
+							method="get">
+							<button type="submit">숨김</button>
+						</form>
+					</security:authorize>
+				</div>
+
+			</div>
+		</c:if>
+	</div>
+</div>

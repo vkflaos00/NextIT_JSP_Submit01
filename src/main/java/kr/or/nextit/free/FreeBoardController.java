@@ -70,7 +70,6 @@ public class FreeBoardController {
 
 	@RequestMapping("/freeForm")
 	public String freeForm(@ModelAttribute("freeBoard") FreeBoardVO freeBoard ) {
-		//return "/free/freeForm";
 		return "free.freeForm";
 	}
 	
@@ -306,7 +305,7 @@ public class FreeBoardController {
 		}catch(Exception de){
 			resultMessageVO.failSetting(false
 					, "게시글 숨김 실패"
-					, "게시글 숨김 실패 하였습니다. 전산실에 문의 부탁드립니다. 042-719-8850");
+					, "");
 			de.printStackTrace();
 		}
 		model.addAttribute("resultMessageVO", resultMessageVO);
