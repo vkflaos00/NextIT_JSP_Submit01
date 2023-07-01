@@ -156,9 +156,9 @@
 	resultType="int">
 	SELECT 
 		COUNT(*) 
-	FROM MEMBER_ROLE 
-	WHERE USER_ID =#{boWriter} 
-	and USER_ROLE='AD'
+	FROM member
+	WHERE mem_ID =#{boWriter} 
+	and mem_ROLE='ADMIN'
 </select>
 
 </mapper>

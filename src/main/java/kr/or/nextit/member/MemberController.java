@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -49,58 +50,68 @@ public class MemberController {
 
 	@Autowired
 	private NextITFileUpload nextITFileUpload;
-
+	
+	@Transactional
 	@RequestMapping(value = "/member/memberRegister", method = RequestMethod.POST)
-	public String memberRegister(@Validated(value = MemberRegister.class) @ModelAttribute("member") MemberVO member,
-			BindingResult error, Model model, ResultMessageVO resultMessageVO,
-			@RequestParam(required = false) MultipartFile[] profilePhoto) {
-		System.out.println("MemberController memberRegister member.toString(): " + member.toString());
+	public String memberRegister(
+	        @Validated(value = MemberRegister.class) @ModelAttribute("member") MemberVO member,
+	        BindingResult error, Model model, ResultMessageVO resultMessageVO,
+	        @RequestParam(required = false) MultipartFile[] profilePhoto) throws Exception {
 
-		if (error.hasErrors()) {
-			return "/login/join";
-		}
+	    System.out.println("MemberController memberRegister member.toString(): " + member.toString());
 
-		boolean fileuploadFlag = true;
-		if (profilePhoto != null) {
-			try {
-				List<AttachVO> attachList = nextITFileUpload.fileUpload(profilePhoto, "PROFILEPHOTO", "profilePhoto");
-				if (attachList.size() > 0) {
-					member.setAttachList(attachList);
-				}
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				fileuploadFlag = false;
-			}
-		}
+	    if (error.hasErrors()) {
+	        return "/login/join";
+	    }
 
-		try {
-			if (member.getMemId() != null && !member.getMemId().equals("")) {
-				memberService.registerMember(member);
-			} else {
-				throw new Exception();
-			}
-			if (fileuploadFlag) {
-				return "redirect:/login/sign";
-			} else {
-				resultMessageVO.failSetting(false, "회원등록 성공, 프로필 업로드 실패", "");
-			}
-		} catch (BizDuplicateKeyException bde) {
-			bde.printStackTrace();
-			resultMessageVO.failSetting(false, "회원등록실패", "이미 사용중인 아이디");
-		} catch (BizNotEffectedException bne) {
-			bne.printStackTrace();
-			resultMessageVO.failSetting(false, "회원등록실패", "");
-		} catch (BizMailAuthException bmae) {
-			bmae.printStackTrace();
-			resultMessageVO.failSetting(false, "회원등록실패", "메일 인증이 안 됨.");
-		} catch (Exception de) {
-			de.printStackTrace();
-			resultMessageVO.failSetting(false, "회원등록실패", "");
-		}
+	    boolean fileuploadFlag = false;
 
-		model.addAttribute("resultMessageVO", resultMessageVO);
-		return "/common/message";
+	    if (profilePhoto != null) {
+	        try {
+	            List<AttachVO> attachList = nextITFileUpload.fileUpload(
+	                    profilePhoto, "PROFILEPHOTO", "profilePhoto");
+	            if (attachList.size() > 0) {
+	                member.setAttachList(attachList);
+	                fileuploadFlag = true;  // 파일 업로드 성공
+	            } else {
+	                // 파일 업로드 실패한 경우
+	                throw new BizNotEffectedException("File upload failed.");
+	            }
+	        } catch (IllegalStateException | IOException e) {
+	            e.printStackTrace();
+	            // 파일 업로드 실패한 경우
+	            throw new BizNotEffectedException("File upload failed.");
+	        }
+	    }
+
+	    try {
+	        if (member.getMemId() != null && !member.getMemId().equals("")) {
+	            memberService.registerMember(member);
+	        } else {
+	            throw new Exception();
+	        }
+	        if (fileuploadFlag) {
+	            return "redirect:/login/sign";
+	        } else {
+	            resultMessageVO.failSetting(false, "회원등록 실패, 프로필 업로드 실패", "");
+	        }
+	    } catch (BizDuplicateKeyException bde) {
+	        bde.printStackTrace();
+	        resultMessageVO.failSetting(false, "회원등록실패", "이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요");
+	    } catch (BizNotEffectedException bne) {
+	        bne.printStackTrace();
+	        resultMessageVO.failSetting(false, "회원등록실패", "회원등록에 실패하였습니다. 전산실에 문의부탁드립니다. 042-719-8850");
+	    } catch (Exception de) {
+	        de.printStackTrace();
+	        resultMessageVO.failSetting(false, "회원등록실패", "회원등록에 실패하였습니다. 전산실에 문의부탁드립니다. 042-719-8850");
+	    }
+
+	    model.addAttribute("resultMessageVO", resultMessageVO);
+	    return "/common/message";
 	}
+
+
+
 
 	@RequestMapping("/member/memberView")
 	public String memberView(@RequestParam String memId, Model model) {
@@ -210,8 +221,8 @@ public class MemberController {
 	@RequestMapping("/member/memberGrid")
 	@ResponseBody
 	public MemberSearchVO memberGrid(@ModelAttribute MemberSearchVO searchVO) {
-		logger.info("memberGrid searchVO.toString():" +searchVO.toString());
-		
+		logger.info("memberGrid searchVO.toString():" + searchVO.toString());
+
 		try {
 			List<MemberVO> memberList = memberService.getMemberList(searchVO);
 			searchVO.setMemberList(memberList);
@@ -220,7 +231,7 @@ public class MemberController {
 		}
 		return searchVO;
 	}
-	
+
 	@RequestMapping("/member/memberGridUpdate")
 	@ResponseBody
 	public boolean memberGridUpdate(@RequestBody Map<String, Object> map) {

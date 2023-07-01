@@ -32,7 +32,6 @@ h1::after {
 		</div>
 	</div>
 	<tiles:insertAttribute name="body"/>
-<h1>가만히 있어도 성공하는 세상에서 가장 쉬운 도전</h1>
 </div>
 
 </body>

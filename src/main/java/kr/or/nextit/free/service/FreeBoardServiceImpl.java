@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.nextit.attach.mapper.IAttachMapper;
 import kr.or.nextit.attach.vo.AttachVO;
@@ -42,9 +43,7 @@ public class FreeBoardServiceImpl implements IFreeBoardService {
 	
 	@Override
 	public void registerBoard(FreeBoardVO freeBoard) throws BizNotEffectedException {
-		// TODO Auto-generated method stub
 		System.out.println("FreeBoardServiceImpl registerBoard");
-		
 			
 		String boNo = freeMapper.getFreeBoardKey();
 		System.out.println("boNo: "+ boNo);
@@ -55,21 +54,10 @@ public class FreeBoardServiceImpl implements IFreeBoardService {
 		freeBoard.setBoPass(encodedPw);
 		
 		int resultCnt = freeMapper.insertBoard(freeBoard);
-		
+
 		if(resultCnt != 1) {
 			throw new BizNotEffectedException();
 		}
-		
-		List<AttachVO> attachList = freeBoard.getAttachList();
-		if(attachList !=null && attachList.size()>0) {
-			for(AttachVO attch : attachList) {
-				attch.setAtchParentNo(boNo);
-				attch.setAtchRegId(freeBoard.getBoWriter());
-				
-				attachMapper.insertAttach(attch);
-			}
-		}
-		
 		
 	}
 

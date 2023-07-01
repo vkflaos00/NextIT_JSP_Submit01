@@ -49,6 +49,7 @@ public class MemberServiceImpl implements IMemberService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
+	@Transactional 
 	public void registerMember(MemberVO member)
 			throws BizDuplicateKeyException, BizNotEffectedException, BizMailAuthException {
 		logger.info("void registerMember");
@@ -86,6 +87,7 @@ public class MemberServiceImpl implements IMemberService {
 		}
 
 	}
+
 
 	@Override
 	public boolean loginCheck(MemberVO member, HttpServletRequest request, HttpServletResponse response)

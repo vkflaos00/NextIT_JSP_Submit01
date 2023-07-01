@@ -94,24 +94,27 @@ public class LoginController {
 	@RequestMapping("/home")
 	public String home(HttpSession session, HttpServletResponse response) {
 		logger.info("LoginController home");
-
-		MemberVO member = (MemberVO) session.getAttribute("memberVO");
-
+		
+		MemberVO member =  (MemberVO) session.getAttribute("memberVO");
+		
 		String rememberMe = member.getRememberMe();
 		if (rememberMe != null && rememberMe.equals("Y")) {
 			System.out.println("rememberMe is Y");
-			Cookie cookie = new Cookie("rememberMe", member.getMemId());
-			cookie.setMaxAge(60 * 60 * 24);
+			Cookie cookie= new Cookie("rememberMe", member.getMemId());
+			cookie.setMaxAge(60*60*24); 
 			cookie.setHttpOnly(true);
+			//cookie.setSecure(true);
 			response.addCookie(cookie);
-		} else {
-			Cookie cookie = new Cookie("rememberMe", "");
+		}else{
+			Cookie cookie= new Cookie("rememberMe", "");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
-
+	
+		
 		return "/home/home";
 	}
+	
 
 	@RequestMapping("/login/logout")
 	public String logout(HttpServletRequest request) {

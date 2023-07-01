@@ -36,13 +36,9 @@
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-
-
 	<aop:aspectj-autoproxy />
 
-
 	<interceptors>
-
 		<interceptor>
 			<mapping path="/free/freeHide" />
 			<beans:bean

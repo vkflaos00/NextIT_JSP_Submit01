@@ -21,9 +21,5 @@
 	<tiles:insertAttribute name="body"/>
 
 </div>
-	
-<hr>
-<h1>가만히 있어도 성공하는 세상에서 가장 쉬운 도전</h1>
-<hr>
 </body>
 </html>

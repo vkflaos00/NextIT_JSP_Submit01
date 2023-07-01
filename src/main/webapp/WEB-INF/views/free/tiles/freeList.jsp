@@ -206,12 +206,7 @@
 					<input type="button"
 						onclick="location.href='${pageContext.request.contextPath}/free/freeForm'"
 						value="글쓰기">
-					<security:authorize access="hasAuthority('ADMIN')">
-						<form action="${pageContext.request.contextPath}/free/freehide"
-							method="get">
-							<button type="submit">숨김</button>
-						</form>
-					</security:authorize>
+			
 				</div>
 
 			</div>

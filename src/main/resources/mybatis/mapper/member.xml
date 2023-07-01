@@ -117,16 +117,15 @@
 
 	<select id="getRoleInfo" resultType="RoleInfoVO">
 		select
-		role_name,
+		role_name
 		,role_kor
 		from role_info
 	</select>
 
 	<delete id="deleteUserRole" parameterType="string">
 		delete
-		from member_role
+		from mem_role
 		where user_id = #{memId}
-
 	</delete>
 
 	<insert id="insertMultiRole" parameterType="string">

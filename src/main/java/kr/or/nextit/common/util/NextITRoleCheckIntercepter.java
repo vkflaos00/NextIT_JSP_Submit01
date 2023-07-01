@@ -1,7 +1,5 @@
 package kr.or.nextit.common.util;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import kr.or.nextit.common.vo.UserRoleVO;
 import kr.or.nextit.member.vo.MemberVO;
 
 public class NextITRoleCheckIntercepter extends HandlerInterceptorAdapter{
@@ -30,16 +27,10 @@ public class NextITRoleCheckIntercepter extends HandlerInterceptorAdapter{
 			return false;
 		}
 		
-		logger.info("NextITRoleCheckIntercepter member.toString():" 
-				+ member.toString() );
-		
-		List<UserRoleVO> userRoleList =  member.getUserRoleList();
-		
-		for(UserRoleVO vo : userRoleList) {
-			if("ADMIN".equals( vo.getUserRole() )){
-				return true;
-			}
+		if("ADMIN".equals(member.getMemRole())){
+			return true;
 		}
+		
 		logger.info("(NextITRoleCheckIntercepter) Your Role is not Admin");
 		response.sendError(403);
 		return false;

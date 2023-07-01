@@ -298,29 +298,6 @@ function fn_freeHide(){
                                   ${freeBoard.boModDate ne null ? freeBoard.boModDate : freeBoard.boRegDate }
                               </td>
                           </tr>
-                          
-                          		<!--파일 리스트 출력  -->
-                       			<%-- ${freeBoard.attachList} --%>
-                       		<tr>
-                       			<td class="td_left">첨부파일</td>
-                    				<td class="td_right">
-                    					<c:forEach items="${freeBoard.attachList}"
-                    						var="attach" varStatus="status">
-                    							<div>
-													${status.count}                    							
-													<a href="<c:url value='/attach/download/${attach.atchNo }'/>" target="_blank">
-														${attach.atchOriginalName } 
-													</a>
-													<br>
-														&nbsp;&nbsp;&nbsp;크기: ${attach.atchConvertSize}
-															, 다운로드 횟수 :${attach.atchDownHit} 
-													<br>
-                    							</div>
-                    					</c:forEach>
-                    				</td>
-                       		</tr>
-                       		
-                          		
                       </table>
                   </div>
                   <!-- 버튼 -->
@@ -331,15 +308,15 @@ function fn_freeHide(){
                       	<input type="button" onclick="location.href='${pageContext.request.contextPath }/free/freeEdit?boNo=${freeBoard.boNo }'" value="수정">
                       	<input type="button" onclick="fn_freeDelete()" value="삭제">
                       </c:if>
-						<c:forEach items="${memberVO.userRoleList }" var="roleList">
-							<c:if test="${roleList.userRole eq 'AD' }">
+						
+							<c:if test="${memberVO.memRole eq 'ADMIN' }">
 								<input type="button" onclick="fn_freeHide()" value="숨김">
 								<form name="freeHide" action="${pageContext.request.contextPath }/free/freeHide" method="post">
 									<input type="hidden" name="memId" value="${memberVO.memId }" />	
 									<input type="hidden" name="boNo" value="${freeBoard.boNo }" />	
 								</form>
 							</c:if>
-						</c:forEach>
+
                   </div>
              </c:if>
              

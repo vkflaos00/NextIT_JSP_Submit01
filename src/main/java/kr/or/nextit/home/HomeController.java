@@ -30,4 +30,10 @@ public class HomeController {
 		return "home.home";
 	}
 	
+
+	@RequestMapping("/tiles/basic")
+	public String tilesBasic() {
+		return "tiles.basic";
+	}
+	
 }
